@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Card from '../components/Card';
-// import axios, { AxiosResponse } from 'axios';
 import SearchBar from '../components/SearchBar';
 import services from '../services/apiCalls';
+
 
 const Home = () => {
   const [search, setSearch] = useState<string>("");
@@ -16,7 +16,7 @@ const Home = () => {
     original_title: string,
     overview: string,
     popularity: number,
-    poster_path: string
+    poster_path: string,
     release_date: string,
     title: string,
     video: boolean,
@@ -31,11 +31,11 @@ const Home = () => {
     try{
       const dataRetrieved = await services.getSearch(search);
       setData(dataRetrieved.results);
-      setSearch("")
+      setSearch("");
     }catch(e){
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   return(
       <section className='home'>
@@ -44,12 +44,16 @@ const Home = () => {
                 Movie Surf
             </h1>
             <SearchBar search={search} setSearch={setSearch} handleSubmit={handleSubmit}/>
-            {
-              data.length !== 0 ?
-              data.map((movie: object) => <Card movie={movie} />):
-              ""
-            }
-          </div>
+            </div>
+            <main className='main'>
+              {
+                data.length !== 0 ?
+                data.map((movie: Movie) => 
+                  <Card key={movie.id} movie={movie} />
+                ):
+                ""
+              }
+            </main>
       </section>
   )
 }
